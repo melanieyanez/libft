@@ -1,0 +1,406 @@
+!<arch>
+ft_isalnum.c    1666958578  501   20    100644  331       `
+#include <ctype.h>
+#include <stdio.h>
+
+int ft_isalnum(int c)
+{
+    if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9')
+        return (1);
+    return (0);
+}
+
+int main (void)
+{
+    int c;
+
+    c = '^';
+    printf("ma fontion donne %d\n", ft_isalnum(c));
+    printf("la vraie fontion donne %d\n", isalnum(c));
+}
+ft_isalpha.c    1666958338  501   20    100644  307       `
+#include <ctype.h>
+#include <stdio.h>
+
+int ft_isalpha(int c)
+{
+    if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
+        return (1);
+    return (0);
+}
+
+int main (void)
+{
+    int c;
+
+    c = 'h';
+    printf("ma fontion donne %d\n", ft_isalpha(c));
+    printf("la vraie fontion donne %d\n", isalpha(c));
+}
+ft_isdigit.c    1666958045  501   20    100644  283       `
+#include <ctype.h>
+#include <stdio.h>
+
+int ft_isdigit(int c)
+{
+    if (c >= '0' && c <= '9')
+        return (1);
+    return (0);
+}
+
+int main (void)
+{
+    int c;
+
+    c = '9';
+    printf("ma fontion donne %d\n", ft_isdigit(c));
+    printf("la vraie fontion donne %d\n", isdigit(c));
+}
+ft_itoa.c       1666955511  501   20    100644  819       `
+#include <stdio.h>
+#include <stdlib.h>
+
+int nbr_len(int nbr)
+{
+    int len;
+
+    len = 1;
+    if (nbr < 0)
+    {
+        nbr = nbr * -1;
+        len = 2;
+    }
+    while (nbr >= 10)
+    {
+        nbr = nbr / 10;
+        len ++;
+    }
+    return (len);
+}
+
+char    *ft_itoa(int n)
+{
+    char    *result;
+    int     i;
+    int     len;
+
+    len = nbr_len(n);
+    result = malloc(sizeof(char) * (len + 1)); // pour le 0 final
+    i = len - 1; // pr prendre l'indice
+    if (n < 0)
+    {
+        result[0] = '-';
+        n = n * -1;
+    }
+    while (n >= 10)
+    {
+        result[i] = n % 10 + 48;
+        n = n / 10;
+        i --;
+    }
+    result[i] = n + 48;
+    result[len] = '\0';
+    return (result);
+}
+
+int main(void)
+{
+    int nb;
+
+    nb = -1000;
+    printf("%d\n", nbr_len(nb));
+    printf("%s\n", ft_itoa(nb));
+}
+ft_putchar_fd.c 1666984592  501   20    100644  325       `
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+void    ft_putchar_fd(char c, int fd)
+{
+    write(fd, &c, 1);
+}
+
+int main(void)
+{
+    char file_path[] = "/Users/melanieyanez/Desktop/libft/haricotvert.txt";
+    int file;
+
+    file = open(file_path, O_RDWR);
+    ft_putchar_fd('B', file);
+}
+ft_putendl_fd.c 1666984865  501   20    100644  469       `
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+void    ft_putendl_fd(char *s, int fd)
+{
+    int i;
+
+    i = 0;
+    while (s[i] != '\0')
+    {
+        write(fd, &s[i], 1);
+        i ++;
+    }
+    write(fd, "\n", 1);
+}
+
+int main(void)
+{
+    char file_path[] = "/Users/melanieyanez/Desktop/libft/haricotvert.txt";
+    int file;
+
+    file = open(file_path, O_RDWR);
+    ft_putendl_fd("Mojito est un fumier", file);
+}
+ft_putnbr_fd.c  1666986160  501   20    100644  1134      `
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+int nbr_len(int nbr)
+{
+    int len;
+
+    len = 1;
+    if (nbr < 0)
+    {
+        nbr = nbr * -1;
+        len = 2;
+    }
+    while (nbr >= 10)
+    {
+        nbr = nbr / 10;
+        len ++;
+    }
+    return (len);
+}
+
+char    *ft_itoa(int n)
+{
+    char    *result;
+    int     i;
+    int     len;
+
+    len = nbr_len(n);
+    result = malloc(sizeof(char) * (len + 1)); // pour le 0 final
+    i = len - 1; // pr prendre l'indice
+    if (n < 0)
+    {
+        result[0] = '-';
+        n = n * -1;
+    }
+    while (n >= 10)
+    {
+        result[i] = n % 10 + 48;
+        n = n / 10;
+        i --;
+    }
+    result[i] = n + 48;
+    result[len] = '\0';
+    return (result);
+}
+
+void    ft_putnbr_fd(int n, int fd)
+{
+    char *result = ft_itoa(n);
+    int  i;
+
+    i = 0;
+    while (result[i] != '\0')
+    {
+        write(fd, &result[i], 1);
+        i ++;
+    }
+}
+
+int main(void)
+{
+    char file_path[] = "/Users/melanieyanez/Desktop/libft/haricotvert.txt";
+    int file;
+
+    file = open(file_path, O_RDWR);
+    ft_putnbr_fd(123456, file);
+}ft_putstr_fd.c  1666984450  501   20    100644  443       `
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+void    ft_putstr_fd(char *s, int fd)
+{
+    int i;
+
+    i = 0;
+    while (s[i] != '\0')
+    {
+        write(fd, &s[i], 1);
+        i ++;
+    }
+}
+
+int main(void)
+{
+    char file_path[] = "/Users/melanieyanez/Desktop/libft/haricotvert.txt";
+    int file;
+
+    file = open(file_path, O_RDWR);
+    ft_putstr_fd("Mojito est un fumier", file);
+}
+ft_strjoin.c    1666908002  501   20    100644  755       `
+#include <stdio.h>
+#include <stdlib.h>
+
+int	ft_strlen(char const *str)
+{
+	int	size;
+
+	size = 0;
+	while (str[size] != '\0')
+		size ++;
+	return (size);
+}
+
+char    *ft_strjoin(char const *s1, char const *s2)
+{
+    int     i;
+    int     j;
+    char    *result;
+
+    result = malloc(sizeof(s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+    i = 0;
+    while (s1[i] != '\0')
+    {
+        result[i] = s1[i];
+        i ++;
+    }
+    j = 0;
+    while (s2[j] != '\0')
+    {
+        result[i] = s2[j];
+        i ++;
+        j ++;
+    }
+    result[i] = '\0';
+    return (result);
+}
+
+int main(void)
+{
+    char    s1_test[] = "Mojito est vraiment tres chou ";
+    char    s2_test[] = "mais aussi vraiment tres con";
+
+    printf("%s\n", ft_strjoin(s1_test, s2_test));
+}  
+ft_strlen.c     1666956826  501   20    100644  111       `
+int	ft_strlen(char const *str)
+{
+	int	size;
+
+	size = 0;
+	while (str[size] != '\0')
+		size ++;
+	return (size);
+}
+ft_strtrim.c    1667029959  501   20    100644  959       `
+#include "libft.h"
+
+//#include <stdio.h>
+//#include <stdlib.h>
+
+/*int	ft_strlen(char const *str)
+{
+	int	size;
+
+	size = 0;
+	while (str[size] != '\0')
+		size ++;
+	return (size);
+}*/
+
+int	is_in_charset(char c, char const *set)
+{
+	int	i;
+
+	i = 0;
+	while (set[i] != '\0')
+	{
+		if (c == set[i])
+			return (1);
+		i ++;
+	}
+	return (0);
+}
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	int		start;
+	int		end;
+	int		i;
+	char	*result;
+
+	start = 0;
+	end = ft_strlen(s1) - 1;
+	while (is_in_charset(s1[start], set) == 1)
+		start ++;
+	while (is_in_charset(s1[end], set) == 1)
+		end --;
+	result = malloc(sizeof(s1) * (end - start + 1));
+	if (!result)
+    	return(NULL);  
+	i = 0;
+	while (start <= end)
+	{
+		result[i] = s1[start];
+		i ++;
+		start ++;
+	}
+	result[i] = '\0';
+	return (result);
+}
+
+int	main(void)
+{
+	char	s1_test[] = "aaabbbaaacccMojito est le plus beau des chatsaaaabbbbbcccccc";
+	char	set_test[] = "abc";
+
+	printf("%s\n", ft_strtrim(s1_test, set_test));
+}
+ft_substr.c     1666689941  501   20    100644  593       `
+#include <stdlib.h>
+#include <stdio.h>
+
+char    *ft_substr(char const *s, unsigned int start, size_t len)
+{
+    int     i;
+    char    *result = malloc(sizeof(s) * (len + 1));
+
+    if (!result || len == 0)
+        return(NULL);  
+    i = 0;
+    while (start <= len)
+    {
+        result[i] = s[start];
+        i ++;
+        start ++;
+    }
+    result[i] = '\0';
+    return (result);
+}
+
+int main(void)
+{
+    char const string_test[] = "Mojito est vraiment tres chou";
+    unsigned int start_test = 0;
+    size_t len_test = 6;
+
+    printf("%s\n", ft_substr(string_test, start_test, len_test));
+}
