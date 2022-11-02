@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melanieyanez <melanieyanez@student.42.f    +#+  +:+       +#+        */
+/*   By: myanez-p <myanez-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:02:51 by melanieyane       #+#    #+#             */
-/*   Updated: 2022/10/31 17:30:17 by melanieyane      ###   ########.fr       */
+/*   Updated: 2022/11/02 14:52:25 by myanez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		i;
 	char	*result;
 
-	result = "";
+	if (ft_strlen(s1) == 0)
+		return (ft_strdup(""));
 	start = 0;
 	end = ft_strlen(s1) - 1;
 	while (is_in_charset(s1[start], set) == 1)
@@ -41,27 +42,24 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (is_in_charset(s1[end], set) == 1)
 		end --;
 	if (start < end)
-		result = malloc(sizeof(char) * (end - start + 1));
+		result = malloc(sizeof(char) * (end - start + 1 + 1));
+	else
+		result = malloc(1 * sizeof(char));
 	if (!result)
 		return (NULL);
-	i = 0;
-	while (start <= end)
-	{
-		result[i] = s1[start];
-		i ++;
-		start ++;
-	}
+	i = -1;
+	while (start + ++i <= end)
+		result[i] = s1[start + i];
 	result[i] = '\0';
 	return (result);
 }
 
-/*int	main(void)
+/*
+int	main(void)
 {
-	char	s1_test[] = "                 ";
-	char	set_test[] = "  ";
+	char	s1_test[] = "aaaaaa";
+	char	set_test[] = "a";
 
 	printf("%s\n", ft_strtrim(s1_test, set_test));
-}*/
-
-//your strtrim does not work with full blank input
-//[KO]: your strtrim did not allocate the good size so the \0 test may be false
+}
+*/
