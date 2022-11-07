@@ -6,11 +6,23 @@
 /*   By: myanez-p <myanez-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:47:29 by myanez-p          #+#    #+#             */
-/*   Updated: 2022/11/02 16:33:57 by myanez-p         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:04:47 by myanez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+void	free_malloc(char **result, size_t i)
+{
+	size_t	j;
+
+	j = 0;
+	while (j <= i)
+	{
+		free(result[j]);
+		j ++;
+	}
+}
 
 size_t	nb_substr(char const *s, char c)
 {
@@ -19,7 +31,11 @@ size_t	nb_substr(char const *s, char c)
 
 	i = 0;
 	nb = 0;
-	while (s[i])
+	if (ft_strlen(s) == 0)
+		return (0);
+	if (s[i] != c)
+		nb = 1;
+	while (i < ft_strlen(s) - 1)
 	{
 		if (s[i] == c && s[i + 1] != c)
 			nb ++;
@@ -59,14 +75,19 @@ char	**ft_split(char const *s, char c)
 	size_t	j;
 	char	**result;
 
-	result = malloc(nb_substr(s, c) * sizeof(s));
+	result = malloc((nb_substr(s, c) + 1) * sizeof(s));
 	if (!result)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (i < nb_substr(s, c) - 1)
+	while (i < nb_substr(s, c))
 	{
 		result[i] = substr_gen(s, c, &j);
+		if (!result[i])
+		{
+			free_malloc(result, i);
+			return (NULL);
+		}
 		i ++;
 	}
 	result[i] = 0;
@@ -74,8 +95,19 @@ char	**ft_split(char const *s, char c)
 }
 
 /*
-[fail]: your split does not work with one word
-[fail]: your split does not work with one word
-[crash]: your split does not work with empty string
-[crash]: your split will segfault in case --> *str="\0aa\0bbb" c='\0'
+int	main(void)
+{
+	int	i;
+	char	**result;
+	
+	i = 0;
+	result= ft_split("hello!zzzzzzzz", 'z');
+	while (result[i] != 0)
+	{
+		printf("%s\n", result[i]);
+		i ++;
+	}
+	printf("%s\n", result[i]);
+	return (0);
+}
 */
