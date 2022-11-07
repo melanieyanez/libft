@@ -6,7 +6,7 @@
 /*   By: myanez-p <myanez-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:47:29 by myanez-p          #+#    #+#             */
-/*   Updated: 2022/11/07 14:04:47 by myanez-p         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:07:59 by myanez-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	**ft_split(char const *s, char c)
 		if (!result[i])
 		{
 			free_malloc(result, i);
+			free(result);
 			return (NULL);
 		}
 		i ++;
